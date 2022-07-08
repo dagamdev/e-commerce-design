@@ -146,6 +146,7 @@ const productsContent = document.querySelector(".products__content")
 productsContent.addEventListener("click", (event) => {
    if(event.target.classList.contains("button") || event.target.classList.contains("bx")){
       let product = products.find(f=> f.id==event.target.dataset.id)
+      if(product.stock <= product.units) return alert("😥 No hay mas productos disponibles.")
       if(product.selected){
          product.units++
          product.subtotal+=product.price
@@ -166,7 +167,7 @@ productsContent.addEventListener("click", (event) => {
 cartContainer.addEventListener("click", (event) => {
    if(event.target.classList.contains("bx-plus")){
       let product = products.find(f=> f.id==event.target.dataset.id)
-      if(product.stock <= product.units) return alert("No hay mas productos disponibles.")
+      if(product.stock <= product.units) return alert("😥 No hay mas productos disponibles.")
       product.units++
       product.subtotal+=product.price
 
@@ -241,9 +242,6 @@ productsLine.forEach((pr, ps) => {
             }, 500)
          }else{
             pc.style = "transform: scale(0); "
-            // setTimeout(()=>{
-            //    pc.style = "display: none"
-            // }, 500)
          }
       })
    })
