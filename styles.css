@@ -1060,5 +1060,15 @@ body.dark-theme .footer__social a:hover{
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(2, 1fr);
+      gap: 1.4em;
+   }
+
+   .footer__container::after{
+      bottom: 0;
+   }
+
+   .footer .footer__copy{
+      font-size: 70%;
+      margin-top: 4vh;
    }
 }
