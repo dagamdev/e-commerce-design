@@ -235,13 +235,15 @@ productsLine.forEach((pr, ps) => {
          if(ps==0){
             pc.removeAttribute("style")
          }else if(psc==(ps-1)){
-            // pc.removeAttribute("style")
-            pc.style = "transform: scale(1)"
-            // pc.style = "transform: translate(0px, 0px)"
+            pc.style = "transform: scale(1);"
+            setTimeout(()=>{
+               pc.style = "transform: scale(1); grid-area: 1/1;"
+            }, 500)
          }else{
-            pc.style = "display: none"
-            pc.style = "transform: scale(0)"
-            // pc.style = "transform: translate(0px, 0px)"
+            pc.style = "transform: scale(0); "
+            // setTimeout(()=>{
+            //    pc.style = "display: none"
+            // }, 500)
          }
       })
    })
