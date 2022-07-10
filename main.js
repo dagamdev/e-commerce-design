@@ -7,7 +7,7 @@ const intervalo  = setInterval(()=>{
 setTimeout(() => {
    clearInterval(intervalo)
    load.style = "display: none;"
-}, 4000)
+}, 5400)
 
 
 const header = document.getElementById("header")
@@ -224,25 +224,21 @@ cartCheckout.addEventListener("click", () => {
 
 
 const productsLine = document.querySelectorAll(".products__line")
-const productsCard = document.querySelectorAll(".products__card")
+// const productsCard = document.querySelectorAll(".products__card")
 productsLine.forEach((pr, ps) => {
    pr.addEventListener("click", ()=> {
       productsLine.forEach((pr1, ps1) => {
          pr1.classList.remove("active-product")
       })
       pr.classList.add("active-product")
-
-      productsCard.forEach((pc, psc)=> {
-         if(ps==0){
-            pc.removeAttribute("style")
-         }else if(psc==(ps-1)){
-            pc.style = "transform: scale(1);"
-            setTimeout(()=>{
-               pc.style = "transform: scale(1); grid-area: 1/1;"
-            }, 500)
-         }else{
-            pc.style = "transform: scale(0); "
-         }
-      })
    })
+})
+
+mixitup(".products__content", {
+   selectors: {
+     target: ".products__card"
+   },
+   animation: {
+     duration: 400
+   }
 })
