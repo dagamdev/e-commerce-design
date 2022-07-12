@@ -853,7 +853,7 @@ body.dark-theme .footer__social a:hover{
 
    .home__img-bg {
       width: 45vw;
-      height: 50vh;
+      height: auto;
    }
 
    .products__container{
