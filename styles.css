@@ -812,13 +812,6 @@ body.dark-theme .footer__social a:hover{
 
 
 
-
-.scrollup{
-   display: none;
-}
-
-
-
 @media (max-width: 1024px){
    .header .nav{
       width: 90vw;
