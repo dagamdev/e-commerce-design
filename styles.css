@@ -62,14 +62,21 @@ body::-webkit-scrollbar-thumb:active {
    justify-content: center;
    align-items: center;
    display: flex;
-   color: rgb(170, 66, 66);
    z-index: 100;
+}
+
+body.dark-theme .load{
+   background-color: var(--container-color);
 }
 
 .load__gif{
    width: 4em;
    fill: var(--First-color);
    transition: transform 0.8s;
+}
+
+body.dark-theme .load__gif{
+   fill: var(--first-color-dark);
 }
 
 .load_logo{
@@ -267,6 +274,7 @@ body.dark-theme .cart{
    display: grid;
    row-gap: 2em;
    overflow: auto;
+   margin-bottom: 4em;
 }
 
 .cart__card{

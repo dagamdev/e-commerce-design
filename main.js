@@ -41,16 +41,23 @@ const navListLi = document.querySelectorAll(".nav__list li a")
 navListLi.forEach(li=> li.addEventListener("click", ()=> navMenu.classList.toggle("open_nav")))
 
 
+const control = localStorage.getItem("darkTeme") || false
 const body = document.querySelector("body")
 const themeButton = document.getElementById("theme-button")
 const cartCount = document.getElementById("cart-count")
+
+if(JSON.parse(control)){
+   themeButton.classList.add("bx-sun")
+   body.classList.add("dark-theme")
+}
 themeButton.addEventListener("click", () => {
+   JSON.parse(control) ? localStorage.setItem("darkTeme", JSON.stringify(false)) : localStorage.setItem("darkTeme", JSON.stringify(true))
    themeButton.classList.toggle("bx-sun")
    body.classList.toggle("dark-theme")
 })
 
 
-const products = [
+const data = [
    {
       id: 1,
       stock: 10,
@@ -85,6 +92,14 @@ const products = [
       position: 0
    },
 ]
+
+let products = []
+if(localStorage.getItem("products")){
+   products = JSON.parse(localStorage.getItem("products"))
+}else{
+   products = data
+   localStorage.setItem("products", JSON.stringify(data))
+}
 
 
 function insertHtml(element, array){
@@ -126,6 +141,7 @@ function insertHtml(element, array){
          </div>
       </div>
    </article>`).join("")
+   localStorage.setItem("products", JSON.stringify(products))
 }
 
 function clearCard(element){
@@ -136,13 +152,33 @@ function clearCard(element){
    </div>`
 }
 
-// let myCart = []
+function cartCheckoutButton(element){
+   if(products.some(s=> s.selected)){
+      element.removeAttribute("disabled")
+      element.classList.add("cart__btn-active")
+   }else{
+      element.setAttribute("disabled", "disabled")
+      element.classList.toggle("cart__btn-active")
+   }
+}
+
 const cartCheckout = document.getElementById("cart-checkout")
 const cartCountSpan = document.getElementById("cart-count")
 const cartTotal = document.getElementById("cart-total")
 const itemsCount = document.getElementById("items-count")
 const cartContainer = document.querySelector(".cart__container")
 const productsContent = document.querySelector(".products__content")
+const productsStock = document.querySelectorAll(".products__stock")
+const productsQuantity = document.querySelectorAll("#products__quantity")
+if(products.some(s=> s.selected)){
+   insertHtml(cartContainer, products)
+   cartCheckoutButton(cartCheckout)
+}
+products.forEach((pr, ps) => {
+   productsStock[ps+1].textContent = `${pr.stock} products`
+   productsQuantity[ps].textContent = `| Stock: ${pr.stock}`
+})
+console.log("hola")
 productsContent.addEventListener("click", (event) => {
    if(event.target.classList.contains("button") || event.target.classList.contains("bx")){
       let product = products.find(f=> f.id==event.target.dataset.id)
@@ -158,8 +194,7 @@ productsContent.addEventListener("click", (event) => {
       }
 
       insertHtml(cartContainer, products)
-      cartCheckout.removeAttribute("disabled")
-      cartCheckout.classList.add("cart__btn-active")
+      cartCheckoutButton(cartCheckout)
    }
 })
 
@@ -183,8 +218,7 @@ cartContainer.addEventListener("click", (event) => {
       insertHtml(cartContainer, products)
       if(!products.some(s=> s.selected)) {
          clearCard(cartContainer)
-         cartCheckout.setAttribute("disabled", "disabled")
-         cartCheckout.classList.remove("cart__btn-active")
+         cartCheckoutButton(cartCheckout)
       }
    }
 
@@ -197,29 +231,26 @@ cartContainer.addEventListener("click", (event) => {
       insertHtml(cartContainer, products)
       if(!products.some(s=> s.selected)) {
          clearCard(cartContainer)
-         cartCheckout.setAttribute("disabled", "disabled")
-         cartCheckout.classList.remove("cart__btn-active")
+         cartCheckoutButton(cartCheckout)
       }
    }
 })
 
 
-const productsStock = document.querySelectorAll(".products__stock")
-const productsQuantity = document.querySelectorAll("#products__quantity")
 cartCheckout.addEventListener("click", () => {
    products.forEach((pr, ps) => {
       pr.stock-=pr.units
       pr.units = 0
       pr.subtotal = 0
       pr.selected = false
+      pr.position = 0
       productsStock[ps+1].textContent = `${pr.stock} products`
       productsQuantity[ps].textContent = `| Stock: ${pr.stock}`
    })
 
    insertHtml(cartContainer, products)
    clearCard(cartContainer)
-   cartCheckout.setAttribute("disabled", "disabled")
-   cartCheckout.classList.remove("cart__btn-active")
+   cartCheckoutButton(cartCheckout)
 })
 
 
