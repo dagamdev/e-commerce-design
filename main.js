@@ -179,7 +179,7 @@ products.forEach((pr, ps) => {
    productsStock[ps+1].textContent = `${pr.stock} products`
    productsQuantity[ps].textContent = `| Stock: ${pr.stock}`
 })
-console.log("hola")
+
 productsContent.addEventListener("click", (event) => {
    if(event.target.classList.contains("button") || event.target.classList.contains("bx")){
       let product = products.find(f=> f.id==event.target.dataset.id)
