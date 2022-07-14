@@ -521,11 +521,15 @@ a.button--gray{
    color: #fff;
    background-color: hsl(0, 0%, 17%);
    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.384);
-   transition: color 0.5s, background-color 0.4s;
+   transition: color 0.5s, background-color 0.4s, opacity 0.2s;
 }
 
 .home__button:hover{
    background-color: var(--First-color);
+}
+
+.home__button:active{
+   opacity: 60%;
 }
 
 body.dark-theme .home__button:hover{

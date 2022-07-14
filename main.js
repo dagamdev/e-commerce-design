@@ -62,7 +62,7 @@ const data = [
       id: 1,
       stock: 10,
       title: "Hoodies",
-      price: 14.00,
+      price: 24.00,
       subtotal: 0,
       img: "./imgs/featured1.png",
       units: 0,
@@ -73,7 +73,7 @@ const data = [
       id: 2,
       stock: 15,
       title: "Shirts",
-      price: 24.00,
+      price: 14.00,
       subtotal: 0,
       img: "./imgs/featured2.png",
       units: 0,
@@ -170,6 +170,7 @@ const cartContainer = document.querySelector(".cart__container")
 const productsContent = document.querySelector(".products__content")
 const productsStock = document.querySelectorAll(".products__stock")
 const productsQuantity = document.querySelectorAll("#products__quantity")
+const homeButton = document.getElementById("home__button")
 if(products.some(s=> s.selected)){
    insertHtml(cartContainer, products)
    cartCheckoutButton(cartCheckout)
@@ -196,6 +197,23 @@ productsContent.addEventListener("click", (event) => {
       insertHtml(cartContainer, products)
       cartCheckoutButton(cartCheckout)
    }
+})
+
+homeButton.addEventListener("click", event => {
+   let product = products.find(f=> f.id==event.target.dataset.id)
+   if(product.stock <= product.units) return alert("😥 No hay mas productos disponibles.")
+   if(product.selected){
+      product.units++
+      product.subtotal+=product.price
+   }else{
+      product.units++
+      product.subtotal+=product.price
+      product.selected = true
+      products.some(s=> s.selected) ? product.position = products.filter(f=> f.selected).sort((a,b)=> b.position - a.position)[0].position+1 : null
+   }
+
+   insertHtml(cartContainer, products)
+   cartCheckoutButton(cartCheckout)
 })
 
 
@@ -255,7 +273,6 @@ cartCheckout.addEventListener("click", () => {
 
 
 const productsLine = document.querySelectorAll(".products__line")
-// const productsCard = document.querySelectorAll(".products__card")
 productsLine.forEach((pr, ps) => {
    pr.addEventListener("click", ()=> {
       productsLine.forEach((pr1, ps1) => {
